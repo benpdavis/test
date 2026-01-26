@@ -1,0 +1,54 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  init-ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-init
+    volumes:
+      - ollama-data:/root/.ollama
+      - ./init-ollama.sh:/init-ollama.sh
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama2}
+    entrypoint: ["/bin/bash", "-c", "tr -d '\r' < /init-ollama.sh > /tmp/init-ollama.sh && chmod +x /tmp/init-ollama.sh && /bin/bash /tmp/init-ollama.sh"]
+    networks:
+      - default
+    restart: "no"
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: ollama-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - webui-data:/app/backend/data
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+
+volumes:
+  ollama-data:
+    driver: local
+  webui-data:
+    driver: local
