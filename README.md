@@ -32,8 +32,18 @@ This project contains a Docker Compose configuration to run Ollama locally.
    ```
    
    **Via Web UI:**
-   - Go to the Settings/Models section in the Web UI
-   - Search for and download models directly from the interface
+   1. Open the Web UI at `http://localhost:3000`
+   2. Click on the **Settings** icon (gear icon) in the sidebar or top navigation
+   3. Navigate to the **Models** section
+   4. Click **"Pull Model"** or **"Download Model"** button
+   5. Enter the model name (e.g., `mistral`, `codellama`, `phi`)
+   6. Click **"Pull"** to start downloading
+   7. Wait for the download to complete (progress will be shown)
+   8. The model will be available in the model selector for chatting
+   
+   **Alternative: Quick Model Pull**
+   - Some versions of Open WebUI allow pulling models directly from the chat interface
+   - Look for a model selector dropdown and a "+" or "Add Model" option
 
 4. **Use the Web UI:**
    - Start chatting with models directly in the browser
@@ -101,11 +111,26 @@ OLLAMA_MODEL=llama2
 
 ## Available Models
 
-Popular models you can pull:
-- `llama2` - Meta's Llama 2
-- `mistral` - Mistral 7B
-- `codellama` - Code Llama
-- `phi` - Microsoft Phi-2
-- `neural-chat` - Intel Neural Chat
+Popular models you can pull via the Web UI or CLI:
 
-Visit [ollama.ai/library](https://ollama.ai/library) for the full list.
+### General Purpose Models
+- `llama2` - Meta's Llama 2 (7B, 13B, 70B variants available)
+- `mistral` - Mistral 7B (fast and efficient)
+- `neural-chat` - Intel Neural Chat (optimized for conversations)
+- `phi` - Microsoft Phi-2 (small but capable)
+
+### Code Models
+- `codellama` - Code Llama (specialized for code generation)
+- `deepseek-coder` - DeepSeek Coder (excellent for coding tasks)
+
+### Large Models
+- `llama2:70b` - Llama 2 70B (requires significant RAM)
+- `mistral-nemo` - Mistral Nemo (larger variant)
+
+### Specialized Models
+- `llava` - Multimodal model (text + images)
+- `nous-hermes` - Fine-tuned for instruction following
+
+**Note:** When pulling models via the Web UI, you can specify the full model name including tags (e.g., `llama2:13b` for the 13B variant).
+
+Visit [ollama.ai/library](https://ollama.ai/library) for the complete list of available models and their sizes.
