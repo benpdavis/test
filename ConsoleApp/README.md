@@ -3,8 +3,11 @@
 # Requirements
 https://dotnet.microsoft.com/en-us/download
 
-# Run
+# dotnet - Run
 dotnet run
 
-# Build
+# dotnet - Build
 dotnet build
+
+# Docker - build
+docker build . -t console-app
